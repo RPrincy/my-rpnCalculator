@@ -1,0 +1,82 @@
+<html>
+  <body>
+      <input type="number" id="textEnterNumber" onchange="calculator.enterNumber()">
+      <button onclick="calculator.enter()">ENTER</button>
+      <button onclick="calculator.clear()">CLEAR</button>
+      <br><br>
+      <button onclick="calculator.add()">+</button>
+      <button onclick="calculator.subtract()">-</button>
+      <button onclick="calculator.multiply()">*</button>
+      <button onclick="calculator.divide()">÷</button>
+      <br><br>
+      <input type="number" id="stack1" value="0" readonly><br>
+      <input type="number" id="stack2" value="0" readonly><br>
+      <input type="number" id="stack3" value="0" readonly><br>
+      <input type="number" id="stack4" value="0" readonly><br>
+      <input type="number" id="stack5" value="0" readonly><br>
+      <input type="number" id="stack6" value="0" readonly><br>
+      <input type="number" id="stack7" value="0" readonly><br>
+      <input type="number" id="stack8" value="0" readonly><br>
+
+    <script>
+      function Calculator() {
+        this.stack = [0, 0, 0, 0, 0, 0, 0, 0];
+        
+        this.enterNumber = function() {
+          this.stack[0] = parseFloat(document.getElementById('textEnterNumber').value);
+          this.updateStack();
+        }
+        
+        this.enter = function() {
+          for (let i = 7; i > 0; i--) {
+            this.stack[i] = this.stack[i - 1];
+          }
+          this.updateStack();
+        }
+        
+        this.add = function() {
+          this.stack[1] += this.stack[0];
+          this.shiftStackDown();
+        }
+        
+        this.subtract = function() {
+          this.stack[1] -= this.stack[0];
+          this.shiftStackDown();
+        }
+        
+        this.multiply = function() {
+          this.stack[1] *= this.stack[0];
+          this.shiftStackDown();
+        }
+        
+        this.divide = function() {
+          if (this.stack[0] !== 0) {
+            this.stack[1] /= this.stack[0];
+          }
+          this.shiftStackDown();
+        }
+        
+        this.clear = function() {
+          this.stack = [0, 0, 0, 0, 0, 0, 0, 0];
+          document.getElementById('textEnterNumber').value = '';
+          this.updateStack();
+        }
+        
+        this.shiftStackDown = function() {
+          for (let i = 0; i < 7; i++) {
+            this.stack[i] = this.stack[i + 1];
+          }
+          this.stack[7] = 0;
+          this.updateStack();
+        }
+        
+        this.updateStack = function() {
+          for (let i = 0; i < 8; i++) {
+            document.getElementById('stack' + (i + 1)).value = this.stack[i];
+          }
+        }
+      }
+      const calculator = new Calculator();
+    </script>
+  </body>
+</html>
